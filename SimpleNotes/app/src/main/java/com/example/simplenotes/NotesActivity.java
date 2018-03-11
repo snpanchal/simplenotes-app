@@ -1,5 +1,9 @@
 package com.example.simplenotes;
 
+/**
+ * Created by Shyam Panchal.
+ */
+
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
