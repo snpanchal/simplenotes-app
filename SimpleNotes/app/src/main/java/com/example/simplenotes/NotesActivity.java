@@ -1,10 +1,15 @@
 package com.example.simplenotes;
 
+/**
+ * Created by Shyam Panchal.
+ */
+
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,28 +18,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 public class NotesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private CursorAdapter cursorAdapter;
+    private static final int EDITOR_REQUEST_CODE = 1010;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
 
-        String[] from = {DBOpenHelper.NOTE_TEXT};
-        int[] to = {android.R.id.text1};
-        cursorAdapter = new SimpleCursorAdapter(this, android.R.layout
-                .simple_list_item_1, null, from, to);
+        cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
+        // Fill ListView with note items
         ListView list = findViewById(android.R.id.list);
         list.setAdapter(cursorAdapter);
 
+        // Load data asynchronously
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -49,7 +54,6 @@ public class NotesActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -119,5 +123,10 @@ public class NotesActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         cursorAdapter.swapCursor(null);
+    }
+
+    public void createNewNote(View view) {
+        Intent intent = new Intent(this, EditorActivity.class);
+        startActivityForResult(intent, EDITOR_REQUEST_CODE);
     }
 }

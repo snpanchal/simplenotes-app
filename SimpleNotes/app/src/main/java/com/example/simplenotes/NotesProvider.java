@@ -1,5 +1,9 @@
 package com.example.simplenotes;
 
+/**
+ * Created by Shyam Panchal.
+ */
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;

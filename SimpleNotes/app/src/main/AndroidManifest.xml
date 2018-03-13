@@ -16,11 +16,20 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        
+
         <provider
-            android:authorities="com.example.simplenotes.notesprovider"
             android:name=".NotesProvider"
-            android:exported="false" />
+            android:authorities="com.example.simplenotes.notesprovider"
+            android:exported="false"/>
+
+        <activity
+            android:name=".EditorActivity"
+            android:label="EditorActivity"
+            android:parentActivityName=".NotesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.simplenotes.NotesActivity"/>
+        </activity>
     </application>
 
 </manifest>
