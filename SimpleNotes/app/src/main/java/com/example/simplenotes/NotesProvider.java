@@ -25,6 +25,8 @@ public class NotesProvider extends ContentProvider {
 
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
+    public static final String CONTENT_ITEM_TYPE = "Note";
+
     static {
         uriMatcher.addURI(AUTHORITY, BASE_PATH, NOTES);
         uriMatcher.addURI(AUTHORITY, BASE_PATH + "/#", NOTES_ID);
@@ -45,6 +47,12 @@ public class NotesProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String
             selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+
+        if (uriMatcher.match(uri) == NOTES_ID) {
+            // WHERE clause selection for specific note that already exists
+            selection = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
+        }
+
         return database.query(DBOpenHelper.TABLE_NOTES, DBOpenHelper.ALL_COLUMNS,
                 selection, null, null, null, DBOpenHelper.NOTE_CREATED + " DESC");
     }
