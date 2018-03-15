@@ -4,6 +4,7 @@ package com.example.simplenotes;
  * Created by Shyam Panchal.
  */
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -13,9 +14,9 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +35,7 @@ public class NotesActivity extends AppCompatActivity implements LoaderManager.Lo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
 
-        cursorAdapter = new NotesCursorAdapter(this, null, 0);
+        cursorAdapter = new NotesCursorAdapter(this);
 
         // Fill ListView with note items
         ListView list = findViewById(android.R.id.list);
@@ -57,10 +58,7 @@ public class NotesActivity extends AppCompatActivity implements LoaderManager.Lo
     private void insertNote(String noteText) {
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.NOTE_TEXT, noteText);
-        Uri noteUri = getContentResolver().insert(NotesProvider.CONTENT_URI, values);
-
-        Log.d("NotesActivity", "Inserted note " + noteUri.getLastPathSegment());
-
+        getContentResolver().insert(NotesProvider.CONTENT_URI, values);
     }
 
     @Override
@@ -104,10 +102,21 @@ public class NotesActivity extends AppCompatActivity implements LoaderManager.Lo
                 };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.are_you_sure))
+        final AlertDialog dialog = builder.setMessage(getString(R.string.are_you_sure))
                 .setPositiveButton(getString(android.R.string.yes), dialogClickListener)
                 .setNegativeButton(getString(android.R.string.no), dialogClickListener)
-                .show();
+                .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @TargetApi(Build.VERSION_CODES.M)
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getColor(R.color.primary_dark));
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getColor(R.color.primary_dark));
+            }
+        });
+
+        dialog.show();
     }
 
     private void insertSampleData() {

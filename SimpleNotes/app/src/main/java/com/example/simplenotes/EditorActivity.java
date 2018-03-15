@@ -38,10 +38,13 @@ public class EditorActivity extends AppCompatActivity {
 
             Cursor cursor = getContentResolver().query(uri, DBOpenHelper.ALL_COLUMNS,
                     noteFilter, null, null);
-            cursor.moveToFirst();
-            oldText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
-            noteEditor.setText(oldText);
-            noteEditor.requestFocus();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                oldText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
+                noteEditor.setText(oldText);
+                noteEditor.requestFocus();
+                cursor.close();
+            }
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,7 +53,9 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_editor, menu);
+        if (action.equals(Intent.ACTION_EDIT)) {
+            getMenuInflater().inflate(R.menu.menu_editor, menu);
+        }
         return true;
     }
 
@@ -60,9 +65,20 @@ public class EditorActivity extends AppCompatActivity {
             case android.R.id.home:
                 finishEditing();
                 break;
+            case R.id.action_delete:
+                deleteNote();
+                break;
         }
 
         return true;
+    }
+
+    private void deleteNote() {
+        getContentResolver().delete(NotesProvider.CONTENT_URI,
+                noteFilter, null);
+        Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
+        setResult(RESULT_OK);
+        finish();
     }
 
     private void finishEditing() {
@@ -79,7 +95,7 @@ public class EditorActivity extends AppCompatActivity {
                 break;
             case Intent.ACTION_EDIT:
                 if (newText.length() == 0) {
-//                    deleteNote();
+                    deleteNote();
                 }
                 else if (oldText.equals(newText)) {
                     setResult(RESULT_CANCELED);
