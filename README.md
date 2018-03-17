@@ -4,9 +4,9 @@ This is a note-taking Android application that is very easy to use and does not 
 ## Features
 It contains of two activities, or screens: the first one as the app launches is a list of the notes that the user has created until now and the second one is where the user can enter text to create a new note or edit an existing note.
 ### Notes List Screen
-![Notes Screen](images/notes-screen.png)
+<img alt="Notes Screen" src="images/notes-screen.png" width=250 />
 ### Note-Editing Screen
-![Editor Screen](images/editor-screen.png)
+<img alt="Editor Screen" src="images/editor-screen.png" width=250 />
 On top of this, the user can create sample notes, delete all notes, or delete a single note.
 
 ## Technical Details
