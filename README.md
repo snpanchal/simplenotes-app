@@ -8,7 +8,7 @@ It contains of two activities, or screens: the first one as the app launches is 
 <img alt="Notes Screen" src="images/notes-screen.png" width=250 />
 
 ### Note-Editing Screen
-<img alt="Editor Screen" src="images/editor-screen.png" width=250 />
+<img alt="Editor Screen" src="images/noteeditor-screen.png" width=250 />
 On top of this, the user can create sample notes, delete all notes, or delete a single note.
 
 ## Technical Details
