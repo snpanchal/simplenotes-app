@@ -34,6 +34,7 @@ public class EditorActivity extends AppCompatActivity {
         }
         else {
             action = Intent.ACTION_EDIT;
+            setTitle("Edit Note");
             noteFilter = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
 
             Cursor cursor = getContentResolver().query(uri, DBOpenHelper.ALL_COLUMNS,
