@@ -30,7 +30,6 @@ public class NotesProvider extends ContentProvider {
     static {
         uriMatcher.addURI(AUTHORITY, BASE_PATH, NOTES);
         uriMatcher.addURI(AUTHORITY, BASE_PATH + "/#", NOTES_ID);
-
     }
 
     private SQLiteDatabase database;
