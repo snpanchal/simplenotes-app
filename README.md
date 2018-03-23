@@ -12,4 +12,4 @@ It contains of two activities, or screens: the first one as the app launches is 
 On top of this, the user can create sample notes, delete all notes, or delete a single note.
 
 ## Technical Details
-The notes are saved persistently using an SQLite database which saves all notes and related information locally on the Android device's internal storage (this means that this app can be used without an internet connection). While the app is running, the app loads data from the database asynchronously to prevent blocking the main UI thread using the Android Loader API.
+The notes are saved persistently using an SQLite database; all notes and related information are saved locally on the Android device's internal storage (this means that this app can be used without an internet connection). While the app is running, the app loads data from the database asynchronously to prevent blocking the main UI thread using the Android Loader API.
